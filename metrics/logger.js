@@ -1,6 +1,6 @@
 'use strict';
 var winston = require('winston');
-require('winston-logstash-udp');
+var LogstashUDP = require('winston-logstash-udp').LogstashUDP;
 var fs = require('fs');
 
 function createLogger(conf, name) {
