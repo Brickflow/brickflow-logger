@@ -13,7 +13,7 @@ function createLogger(conf, name) {
       new (winston.transports.File)({
         filename: 'log/' + name + '.log'
       }),
-      new (winston.transports.LogstashUDP)(conf.logstash)
+      new LogstashUDP(conf.logstash)
     ]
   });
 }
