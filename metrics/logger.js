@@ -14,7 +14,7 @@ function createLogger(conf, name) {
       new (winston.transports.File)({
         filename: 'log/' + name + '.log'
       }),
-      new AMQP(conf.amqp),
+      // new AMQP(conf.amqp),
       new LogstashUDP(conf.logstash)
     ]
   });
