@@ -1,6 +1,7 @@
 'use strict';
 var winston = require('winston');
 var LogstashUDP = require('winston-logstash-udp').LogstashUDP;
+var AMQP = require('winston-amqp').AMQP;
 var fs = require('fs');
 
 function createLogger(conf, name) {
@@ -13,6 +14,7 @@ function createLogger(conf, name) {
       new (winston.transports.File)({
         filename: 'log/' + name + '.log'
       }),
+      new AMQP(conf.amqp),
       new LogstashUDP(conf.logstash)
     ]
   });
