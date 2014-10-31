@@ -8,16 +8,17 @@ function createLogger(conf, name) {
   if (!fs.existsSync('log')) {
     fs.mkdirSync('log');
   }
-  return new (winston.Logger)({
+  var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)(),
       new (winston.transports.File)({
         filename: 'log/' + name + '.log'
       }),
-      // new AMQP(conf.amqp),
       new LogstashUDP(conf.logstash)
     ]
   });
+  logger.add(AMQP, conf.amqp);
+  return logger;
 }
 
 module.exports = {
