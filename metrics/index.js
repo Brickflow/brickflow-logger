@@ -10,7 +10,7 @@ var transform = require('./transform');
 module.exports = function(transportConf) {
   return {
     createTracker: function createTracker(type, req, ban) {
-      req = req || {user: {}, fflip: {}, cookies: {}};
+      req = req && req.user ? req : {user: {}, fflip: {}, cookies: {}};
       ban = ban || {};
       if (req.fflip.setForUser) {
         req.fflip.setForUser({
