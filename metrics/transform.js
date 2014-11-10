@@ -43,19 +43,12 @@ function transform(options) {
   }
 
   var req = options.req;
-  var id;
-  if (req.body.hash !== undefined) {
-    id = req.body.hash;
-  }
-  else{
-    id = req.user ? req.user.hash : req.cookies.guest;
-  }
   return Object.freeze({
     level: options.level,
     ip: req.ip,
     url: req.originalUrl,
     message: options.message,
-    distinctId: id,
+    distinctId: req.user ? req.user.hash : req.cookies.guest,
     eventType: options.eventType,
     params: flattenObject(options.params),
     features: req.fflip.features,
