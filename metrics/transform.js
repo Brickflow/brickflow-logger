@@ -1,4 +1,4 @@
-/* jshint camelcase: false */
+//* jshint camelcase: false */
 'use strict';
 
 var _ = require('lodash');
@@ -45,7 +45,7 @@ function transform(options) {
   var req = options.req;
   return Object.freeze({
     level: options.level,
-    ip: req.ip,
+    ip: req.ips[0],
     url: req.originalUrl,
     message: options.message,
     distinctId: req.user ? req.user.hash : req.cookies.guest,
