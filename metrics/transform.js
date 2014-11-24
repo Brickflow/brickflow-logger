@@ -45,7 +45,7 @@ function transform(options) {
   var req = options.req;
   return Object.freeze({
     level: options.level,
-    ip: req.ips[0],
+    ip: req && req.ips ? req.ips[0] : null,
     url: req.originalUrl,
     message: options.message,
     distinctId: req.user ? req.user.hash : req.cookies.guest,
