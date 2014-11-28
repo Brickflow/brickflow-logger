@@ -2,6 +2,7 @@
 'use strict';
 
 var _ = require('lodash');
+var flat = require('flat');
 
 _.mixin({
   mapKeys: function mapKeys(input, mapper, context) {
@@ -19,23 +20,24 @@ var LOG_LEVELS = [
   'debug'
 ];
 
-var flattenObject = require('flat');
-//function flattenObject(nestedObject) {
-//  var flattened = {};
-//  var recurse = function(obj, prefix) {
-//    prefix = prefix || '';
-//    _.each(obj, function(val, key) {
-//      if (typeof(val) === 'object') {
-//        recurse(val, prefix + key + '.');
-//      } else {
-//        flattened[prefix + key] = val;
-//      }
-//    });
-//  };
-//  recurse(nestedObject);
-//  return flattened;
-//}
-
+function flattenObject(nestedObject) {
+  if (typeof nestedObject !== 'object') {
+    return nestedObject;
+  }
+  var flattened = {};
+  var recurse = function(obj, prefix) {
+    prefix = prefix || '';
+    _.each(obj, function(val, key) {
+      if (typeof(val) === 'object') {
+        recurse(val, prefix + key + '.');
+      } else {
+        flattened[prefix + key] = val;
+      }
+    });
+  };
+  recurse(nestedObject);
+  return flattened;
+}
 
 function transform(options) {
   try {
