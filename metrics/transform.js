@@ -19,21 +19,23 @@ var LOG_LEVELS = [
   'debug'
 ];
 
-function flattenObject(nestedObject) {
-  var flattened = {};
-  var recurse = function(obj, prefix) {
-    prefix = prefix || '';
-    _.each(obj, function(val, key) {
-      if (typeof(val) === 'object') {
-        recurse(val, prefix + key + '.');
-      } else {
-        flattened[prefix + key] = val;
-      }
-    });
-  };
-  recurse(nestedObject);
-  return flattened;
-}
+var flattenObject = require('flat');
+//function flattenObject(nestedObject) {
+//  var flattened = {};
+//  var recurse = function(obj, prefix) {
+//    prefix = prefix || '';
+//    _.each(obj, function(val, key) {
+//      if (typeof(val) === 'object') {
+//        recurse(val, prefix + key + '.');
+//      } else {
+//        flattened[prefix + key] = val;
+//      }
+//    });
+//  };
+//  recurse(nestedObject);
+//  return flattened;
+//}
+
 
 function transform(options) {
   try {
