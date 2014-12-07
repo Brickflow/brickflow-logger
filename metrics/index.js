@@ -7,6 +7,7 @@ var loggerStreamFactory = require('./loggerStream');
 var createLogger = require('./logger').createLogger;
 var transform = require('./transform');
 var timeTrackerFactory = require('./timeTrackerFactory');
+var funnelTrackerFactory = require('./funnelTrackerFactory');
 
 var LOG_LEVELS = ['info', 'debug', 'warning', 'error'];
 
@@ -41,12 +42,19 @@ module.exports = function(transportConf) {
   }
 
   function createTimeTracker() {
-    return timeTrackerFactory(
-        createTracker.apply(null, Array.prototype.slice.call(arguments)));
+    return timeTrackerFactory(createTracker.
+        apply(null, Array.prototype.slice.call(arguments)));
+  }
+
+  function createFunnelTracker() {
+    var tracker = createTracker.
+        apply(null, Array.prototype.slice.call(arguments));
+    return funnelTrackerFactory(tracker, timeTrackerFactory(tracker));
   }
 
   return {
     createTracker: createTracker,
-    createTimeTracker: createTimeTracker
+    createTimeTracker: createTimeTracker,
+    createFunnelTracker: createFunnelTracker
   };
 };
