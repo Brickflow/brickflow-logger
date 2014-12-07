@@ -2,7 +2,6 @@
 'use strict';
 
 var _ = require('lodash');
-var flat = require('flat');
 
 _.mixin({
   mapKeys: function mapKeys(input, mapper, context) {
@@ -30,7 +29,7 @@ function flattenObject(nestedObject) {
     _.each(obj, function(val, key) {
       if (typeof(val) === 'object') {
         recurse(val, prefix + key + '.');
-      } else {
+      } else if (typeof(val) !== 'function') {
         flattened[prefix + key] = val;
       }
     });
