@@ -7,7 +7,7 @@ module.exports = function timeTrackerFactory(tracker) {
 
   function time(key) {
     var t = {
-      key: key,
+      key: key || '_default',
       hash: Math.random().toString(36).split('.')[1],
       startedAt: new Date(),
       laps: {}
@@ -39,29 +39,28 @@ module.exports = function timeTrackerFactory(tracker) {
       stepDuration: now - lastAt,
       totalDuration: now - t.startedAt
     };
-    t.laps[prefix] = lap;
+    t.laps[prefix || t.laps.length] = lap;
     return t;
   }
 
   function timeEndAll(key) {
-    return _.map(t[key], timeEnd);
+    return _.map(t[key || '_default'], timeEnd);
   }
 
   function timeEnd(t) {
     var now = new Date();
     lastAt = now;
+
     _.assign(t, {
       endedAt: now.toString(),
       duration: now - t.startedAt,
       startedAt: t.startedAt.toString()
     });
-
     _.assign(t, _.mapValues(tracker, function(log) {
       return function(msg, payload) {
         log(msg||t.key, _.assign(payload || {}, value(t)));
       };
     }));
-
     _(t.laps).each(function(lap) {
       var lapInfo = {};
       lapInfo[lap.prefix + 'At'] = lap.lapAt.toString();
@@ -71,6 +70,9 @@ module.exports = function timeTrackerFactory(tracker) {
     });
 
     timers[t.key][t.hash] = undefined;
+    if (_.isEmpty(timers[t.key])) {
+      timers[t.key] = undefined;
+    }
     return t;
   }
 
