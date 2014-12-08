@@ -6,14 +6,16 @@ module.exports = function(tracker, timeTracker) {
     return _.assign(t, {
       distinctOptions: distinctOptions || {},
       lap: _.partial(lap, t),
+      step: _.partial(lap, t),
       end: _.partial(timeEnd, t)
     });
   }
 
   function lap(t, suffix, otherInfo) {
     var lap = timeTracker.lap(t, suffix);
-    tracker.info(t.key + '-' + suffix,
-        _(otherInfo).
+    tracker[(otherInfo && otherInfo.err) ? 'error' : 'info'](
+        t.key + '-' + suffix,
+        _(otherInfo||{}).
             assign(t.distinctOptions).
             assign(lap.laps[suffix]).
             value());
