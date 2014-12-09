@@ -69,9 +69,11 @@ module.exports = function timeTrackerFactory(tracker) {
       _.assign(t, lapInfo);
     });
 
-    timers[t.key][t.hash] = undefined;
-    if (_.isEmpty(timers[t.key])) {
-      timers[t.key] = undefined;
+    if (timers[t.key]) {
+      timers[t.key][t.hash] = undefined;
+      if (_.isEmpty(timers[t.key])) {
+        timers[t.key] = undefined;
+      }
     }
     return t;
   }
