@@ -24,17 +24,18 @@ function flattenObject(nestedObject) {
     return nestedObject;
   }
   var flattened = {};
-  var recurse = function(obj, prefix) {
-    prefix = prefix || '';
+  var recurse = function(obj, prefix, depth) {
     _.each(obj, function(val, key) {
       if (typeof(val) === 'object') {
-        recurse(val, prefix + key + '.');
+        if (depth < 10) {
+          recurse(val, prefix + key + '.', depth + 1);
+        }
       } else if (typeof(val) !== 'function') {
         flattened[prefix + key] = val;
       }
     });
   };
-  recurse(nestedObject);
+  recurse(nestedObject, '', 0);
   return flattened;
 }
 
